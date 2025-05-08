@@ -1,0 +1,70 @@
+{{ define "email" }}
+<html>
+
+<head>
+	<style>
+		body {
+			padding: 10px 0;
+		}
+
+		.title {
+			font-size: 14px;
+			font-weight: 500;
+		}
+
+		.text {
+			font-size: 14px;
+		}
+
+		.email-container {
+			max-width: 37.5em;
+			padding: 45px;
+		}
+
+		.signature {
+			display: flex;
+			flex-direction: column;
+		}
+	</style>
+</head>
+
+<body>
+	<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" class="email-container">
+		<tbody>
+			<tr style="width: 100%">
+				<td>
+					<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0">
+						<tbody>
+							<tr>
+								<td>
+									<p class="title">Olá {{ .Name }},</p>
+									<p class="text">
+										Bem-vindo! Estamos felizes que você tenha criado sua conta. Para ativá-la, clique no link abaixo:
+									</p>
+									<a href="{{ .ActivationLink }}" target="_blank" class="text">
+										<span>Ativar minha conta</span>
+									</a>
+									<p class="text">
+										Se você não reconhece esta ação, não se preocupe! Basta ignorar este e-mail e excluí-lo.
+									</p>
+									<p class="text">
+										Para garantir a segurança da sua conta, evite encaminhar este e-mail.
+									</p>
+									<p class="text">Obrigado por se juntar a nós!</p>
+
+									<div class="signature">
+										<p class="text">—</p>
+										<p class="text">Equipe Gulg</p>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+
+</html>
+{{ end }}
