@@ -1,4 +1,4 @@
-package rmq
+package queue
 
 import (
 	"context"
@@ -23,19 +23,17 @@ func New(url string) (*Queue, error) {
 		return nil, fmt.Errorf("failed to create channel: %w", err)
 	}
 
+	err = ch.Qos(1, 0, false)
+	if err != nil {
+		return nil, fmt.Errorf("failed to set QoS: %w", err)
+	}
+
 	return &Queue{conn, ch}, nil
 }
 
 func (q *Queue) Close() {
 	q.channel.Close()
 	q.conn.Close()
-}
-
-func (q *Queue) SetQoS(prefetchCount, prefetchSize int, global bool) error {
-	if err := q.channel.Qos(prefetchCount, prefetchSize, global); err != nil {
-		return fmt.Errorf("failed to set QoS: %w", err)
-	}
-	return nil
 }
 
 func (q *Queue) CreateQueue(name string, durable, autoDel bool) (amqp.Queue, error) {

@@ -1,4 +1,4 @@
-package rmq
+package queue
 
 const (
 	// Exchanges
