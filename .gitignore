@@ -1,0 +1,34 @@
+# Binaries
+*.exe
+*.dll
+*.so
+*.dylib
+
+.DS_Store
+
+#ide
+.run/
+/.idea
+
+# Test Binary
+*.test
+
+# Coverage
+*.out
+
+#db
+db_data/
+
+#env
+.env
+
+# http
+http-client.env.json
+*.http
+.vscode
+
+#temp
+__temp/
+
+#aws
+.aws/credentials
