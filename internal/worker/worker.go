@@ -47,21 +47,6 @@ func (w *Worker) Start(ctx context.Context) {
 			defer w.wg.Done()
 
 			for {
-				messages, err := w.queue.Consume(ctx, queue, "notify-service", false)
-				if err != nil {
-					slog.Error("error consuming msgs",
-						"error", err,
-						"queue", queue,
-					)
-					// Wait a bit before trying again
-					time.Sleep(time.Second * 3)
-					continue
-				}
-
-				for msg := range messages {
-					w.processQueueMessage(msg)
-				}
-
 				select {
 				case <-ctx.Done():
 					slog.Info("context canceled", "queue", queue)
@@ -70,6 +55,21 @@ func (w *Worker) Start(ctx context.Context) {
 					slog.Info("shutdown signal received", "queue", queue)
 					return
 				default:
+					messages, err := w.queue.Consume(ctx, queue, "notify-service", false)
+					if err != nil {
+						slog.Error("error consuming msgs",
+							"error", err,
+							"queue", queue,
+						)
+						// Wait a bit before trying again
+						// TODO: add a backoff strategy
+						time.Sleep(time.Second * 1)
+						continue
+					}
+
+					for msg := range messages {
+						w.processQueueMessage(msg)
+					}
 				}
 			}
 		}()
